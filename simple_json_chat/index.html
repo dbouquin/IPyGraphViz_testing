@@ -22,15 +22,17 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
     <script>
+
+    // modified code from the socket.io chat tutorial...
       var socket = io.connect("http://localhost:3000");
 
       $('form').submit(function(){
-          socket.emit('message', $('#m').val());
+          socket.emit('message', $('#m').val());  // emit the value
           $('#m').val('');
           return false;
       });
 
-      socket.on('message', function(msg){
+      socket.on('message', function(msg){               // handle the reply message
           $('#messages').append($('<li>').text(msg));
       })
 
