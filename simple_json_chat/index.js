@@ -34,9 +34,9 @@ io.on('connection',(socket) => {
         let options = { baseURL: BASE_URL, name:kernelModels[0].name }
 
         services.Kernel.connectTo(kernelModels[0].id,options).then((kernel)=>{
+            console.log('user connected: '+socket.id)
 
             socket.on('message', (msg) => {
-                console.log(typeof(msg))
 
                 let future = kernel.requestExecute({
                     code:'',
@@ -45,10 +45,16 @@ io.on('connection',(socket) => {
                 future.onReply = function(reply){
                     console.log('response: ' + JSON.stringify(reply.content));
                     // emit return JSON to browser
-                    io.emit('message', JSON.stringify(reply.content.user_expressions))
+                    // .to(socket.id) sends response only to the tab that sent it
+                    io.to(socket.id).emit('message', JSON.stringify(reply.content.user_expressions))
 
                 }
             });
+
+            socket.on('disconnect', ()=>{
+                console.log('user disconnected: '+ socket.id)
+            })
+
         });
 
         //need to close connection to kernel via services.Kernel somehow
