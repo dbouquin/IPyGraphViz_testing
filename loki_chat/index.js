@@ -3,7 +3,8 @@ const services = require('@jupyterlab/services');
 const ws = require('ws');
 const xhr = require('xmlhttprequest-ssl');
 
-const app = require('express')();
+const express = require('express')
+const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
 
@@ -44,7 +45,7 @@ io.on('connection',(socket) => {
                     console.log('response: ' + JSON.stringify(reply.content));
                     // emit return JSON to browser
                     // .to(socket.id) sends response only to the tab that sent it
-                    io.to(socket.id).emit('message-1', JSON.stringify(reply.content.user_expressions))
+                    io.to(socket.id).emit('message-1', "Jupyter says: " + JSON.stringify(reply.content.user_expressions))
                 }
             });
 
@@ -54,7 +55,7 @@ io.on('connection',(socket) => {
                     console.log('response: ' + JSON.stringify(reply.content));
                     // emit return JSON to browser
                     // .to(socket.id) sends response only to the tab that sent it
-                    io.to(socket.id).emit('message-2', JSON.stringify(reply.content.user_expressions))
+                    io.to(socket.id).emit('message-2', "Jupyter says: " + JSON.stringify(reply.content.user_expressions))
                 }
             });
 

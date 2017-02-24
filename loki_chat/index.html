@@ -3,32 +3,9 @@
   <head>
     <title>ipython test chat</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" src="custom.css">
+
   </head>
-
-  <style>
-    .form-group {
-        position: absolute;
-        bottom: 0;
-        left:0;
-    }
-
-    .custom-form{
-        position: relative;
-        margin-bottom: 5px;
-        margin-left: 12px;
-    }
-
-    .custom-input{
-        position: relative;
-        margin-right: 3px;
-        width: 700px;
-        font-size: 16px;
-    }
-
-    #messages { list-style-type: none; margin: 0; padding: 0; }
-    #messages li { padding: 5px 10px; }
-    #messages li:nth-child(odd) { background: #eee; }
-  </style>
 
   <body>
     <ul class="list-group" id="messages"></ul>
@@ -41,11 +18,16 @@
         </form>
     </div>
 
-    <!-- JS front end imports -->
+    <!-- socket.io frontend, jquery bootstrap -->
     <script src="/socket.io/socket.io.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" charset="utf-8"></script>
 
+    <!-- loki main and indexedDB Adaptor modules from npm  -->
+    <script src="bower_components/lokijs/src/lokijs.js" charset="utf-8"></script>
+    <script src="bower_components/lokijs/src/loki-indexed-adapter.js" charset="utf-8"></script>
+
+    <!-- main js -->
     <script src="main.js"></script>
 
     </script>

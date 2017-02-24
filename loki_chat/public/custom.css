@@ -1,0 +1,23 @@
+/* a little custom css for the test apps...*/
+.form-group {
+    position: absolute;
+    bottom: 0;
+    left:0;
+}
+
+.custom-form{
+    position: relative;
+    margin-bottom: 5px;
+    margin-left: 12px;
+}
+
+.custom-input{
+    position: relative;
+    margin-right: 3px;
+    width: 700px;
+    font-size: 16px;
+}
+
+#messages { list-style-type: none; margin: 0; padding: 0; }
+#messages li { padding: 5px 10px; }
+#messages li:nth-child(odd) { background: #eee; }
