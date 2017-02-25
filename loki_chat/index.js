@@ -42,20 +42,16 @@ io.on('connection',(socket) => {
             socket.on('message-1', (msg) => {
                 let future = kernel.requestExecute({ code:'', user_expressions:{"hw1":`echo('${msg}')`}});
                 future.onReply = function(reply){
-                    console.log('response: ' + JSON.stringify(reply.content));
-                    // emit return JSON to browser
-                    // .to(socket.id) sends response only to the tab that sent it
-                    io.to(socket.id).emit('message-1', "Jupyter says: " + JSON.stringify(reply.content.user_expressions))
+                    console.log(JSON.stringify(reply.content));
+                    io.to(socket.id).emit('message-1', reply.content)
                 }
             });
 
             socket.on('message-2', (msg) => {
                 let future = kernel.requestExecute({code:'',user_expressions:{"hw2":`echo('${msg}')`}});
                 future.onReply = function(reply){
-                    console.log('response: ' + JSON.stringify(reply.content));
-                    // emit return JSON to browser
-                    // .to(socket.id) sends response only to the tab that sent it
-                    io.to(socket.id).emit('message-2', "Jupyter says: " + JSON.stringify(reply.content.user_expressions))
+                    console.log(JSON.stringify(reply.content));
+                    io.to(socket.id).emit('message-2', reply.content)
                 }
             });
 
