@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+  <head>
+    <title>ipython test chat</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="custom.css">
+
+  </head>
+
+  <body>
+
+    <ul class="list-group" id="messages"></ul>
+    <div class="form-group">
+        <form class="custom-form" id="form1">
+            <label class="custom-label" for="var_name1"> variable name </label>
+            <input class="custom-input var" id="var_name1" autocomplete="off" />
+            <label class="custom-label" for="message1"> message </label>
+            <input class="custom-input" id="message1" autocomplete="off" />
+            <button>Send to Echo Method 1</button>
+        </form>
+        <form class="custom-form" id="form2">
+            <label class="custom-label" for="var_name2"> variable name </label>
+            <input class="custom-input var" id="var_name2" autocomplete="off" />
+            <label class="custom-label" for="message2"> message </label>
+            <input class="custom-input" id="message2" autocomplete="off" />
+            <button>Send to Echo Method 2</button>
+        </form>
+        <form class="custom-form" id="form3">
+            <label class="custom-label" for="var_name3"> variable name </label>
+            <input class="custom-input var" id="var_name3" autocomplete="off" />
+            <label class="custom-label" for="message3"> message </label>
+            <input class="custom-input" id="message3" autocomplete="off" />
+            <button>Send to Echo Method 3</button>
+        </form>
+    </div>
+
+    <!-- socket.io frontend, jquery bootstrap -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" charset="utf-8"></script>
+
+    <!-- loki main and indexedDB Adaptor modules from npm  -->
+    <script src="bower_components/lokijs/src/lokijs.js" charset="utf-8"></script>
+    <script src="bower_components/lokijs/src/loki-indexed-adapter.js" charset="utf-8"></script>
+
+    <!-- main js -->
+    <script src="main.js"></script>
+
+    </script>
+  </body>
+</html>

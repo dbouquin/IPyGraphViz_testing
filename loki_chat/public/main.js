@@ -27,7 +27,7 @@ $('#form2').submit(function(event){
 
     query_loki('hw2').then(function(db_query){
         if (db_query.length != 0)
-            $('#messages').append($('<li>').text("hw2 already in Loki: "JSON.stringify(db_query[0])));
+            $('#messages').append($('<li>').text("hw2 already in Loki: " + JSON.stringify(db_query[0])));
         else
             socket.emit('message-2', $msg.val());  // emit the value
 
