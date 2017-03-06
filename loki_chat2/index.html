@@ -8,31 +8,33 @@
   </head>
 
   <body>
-
-    <ul class="list-group" id="messages"></ul>
-    <div class="form-group">
-        <form class="custom-form" id="form1">
-            <label class="custom-label" for="var_name1"> variable name </label>
-            <input class="custom-input var" id="var_name1" autocomplete="off" />
-            <label class="custom-label" for="message1"> message </label>
-            <input class="custom-input" id="message1" autocomplete="off" />
-            <button>Send to Echo Method 1</button>
-        </form>
-        <form class="custom-form" id="form2">
-            <label class="custom-label" for="var_name2"> variable name </label>
-            <input class="custom-input var" id="var_name2" autocomplete="off" />
-            <label class="custom-label" for="message2"> message </label>
-            <input class="custom-input" id="message2" autocomplete="off" />
-            <button>Send to Echo Method 2</button>
-        </form>
-        <form class="custom-form" id="form3">
-            <label class="custom-label" for="var_name3"> variable name </label>
-            <input class="custom-input var" id="var_name3" autocomplete="off" />
-            <label class="custom-label" for="message3"> message </label>
-            <input class="custom-input" id="message3" autocomplete="off" />
-            <button>Send to Echo Method 3</button>
-        </form>
-    </div>
+      <ul class="list-group" id="messages"></ul>
+        <div class="form-group">
+            <form class="custom-form" id="form1">
+                <label class="custom-label" for="var_name1"> variable name </label>
+                <input class="custom-input var" id="var_name1" autocomplete="off" />
+                <label class="custom-label" for="message1"> message </label>
+                <input class="custom-input" id="message1" autocomplete="off" />
+                <button>Send to Echo Method 1</button>
+            </form>
+            <form class="custom-form" id="form2">
+                <label class="custom-label" for="var_name2"> variable name </label>
+                <input class="custom-input var" id="var_name2" autocomplete="off" />
+                <label class="custom-label" for="message2"> message </label>
+                <input class="custom-input" id="message2" autocomplete="off" />
+                <button>Send to Echo Method 2</button>
+            </form>
+            <form class="custom-form" id="form3">
+                <label class="custom-label" for="var_name3"> variable name </label>
+                <input class="custom-input var" id="var_name3" autocomplete="off" />
+                <label class="custom-label" for="message3"> message </label>
+                <input class="custom-input" id="message3" autocomplete="off" />
+                <button>Send to Echo Method 3</button>
+            </form>
+            <button id="show_loki"> Show Loki DataStore</button>
+            <input class="checkbox-inline" type="checkbox" id="overwrite" value="">
+            <label for="overwrite"> Overwrite existing variables? </label>
+        </div>
 
     <!-- socket.io frontend, jquery bootstrap -->
     <script src="/socket.io/socket.io.js"></script>

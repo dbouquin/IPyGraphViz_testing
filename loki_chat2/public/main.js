@@ -8,14 +8,14 @@ var db = new loki("test.db", { adapter: idbAdapter });
 var responses = db.addCollection('responses');
 
 // this approach assumes a response variable is bound to each form... form1 -> hw1 form2 ->hw2
-$('#form1').submit(function(event){
-    event.preventDefault()
+$('#form1').submit(function(e){
+    e.preventDefault()
     $var_name = $('#var_name1');
     $msg = $('#message1');
 
     query_loki($var_name.val()).then(function(db_query){       //query object from loki... if not in db emit request to kernel
-        if (db_query.length != 0)
-            $('#messages').append($('<li>').text($var_name.val() + " already in Loki: " + JSON.stringify(db_query[0])));
+        if (db_query.length != 0 && !$('#overwrite').is(":checked"))
+            $('#messages').append($('<li>').text($var_name.val() + " is already in Loki: " + JSON.stringify(db_query[0])));
         else
             socket.emit('message-1', JSON.stringify({msg:$msg.val(),var_name:$var_name.val()}));  // emit the value
         $msg.val('');
@@ -23,33 +23,38 @@ $('#form1').submit(function(event){
     });
 });
 
-$('#form2').submit(function(event){
-    event.preventDefault()
+$('#form2').submit(function(e){
+    e.preventDefault()
     $var_name = $('#var_name2');
     $msg = $('#message2');
 
     query_loki($var_name.val()).then(function(db_query){       //query object from loki... if not in db emit request to kernel
-        if (db_query.length != 0)
-            $('#messages').append($('<li>').text($var_name.val() + " already in Loki: " + JSON.stringify(db_query[0])));
+        if (db_query.length != 0 && !$('#overwrite').is(":checked"))
+            $('#messages').append($('<li>').text($var_name.val() + " is already in Loki: " + JSON.stringify(db_query[0])));
         else
             socket.emit('message-2', JSON.stringify({msg:$msg.val(),var_name:$var_name.val()}));  // emit the value
         $msg.val('');
     });
 });
 
-$('#form3').submit(function(event){
-    event.preventDefault()
+$('#form3').submit(function(e){
+    e.preventDefault()
     $var_name = $('#var_name3');
     $msg = $('#message3');
 
     query_loki($var_name.val()).then(function(db_query){       //query object from loki... if not in db emit request to kernel
-        if (db_query.length != 0)
-            $('#messages').append($('<li>').text($var_name.val() + " already in Loki: " + JSON.stringify(db_query[0])));
+        if (db_query.length != 0 && !$('#overwrite').is(":checked"))
+            $('#messages').append($('<li>').text($var_name.val() + " is already in Loki: " + JSON.stringify(db_query[0])));
         else
             socket.emit('message-3', JSON.stringify({msg:$msg.val(),var_name:$var_name.val()}));  // emit the value
         $msg.val('');
     });
 });
+
+// dump loki datastore
+$('#show_loki').click(function(e){
+    $('#messages').append($('<li>').text("Currently in Loki: " + show_loki_responses()))
+})
 
 
 socket.on('message-reply', function(msg){               // handle the reply message
@@ -69,4 +74,8 @@ function query_loki(res_var){
     q_obj = {};
     q_obj[res_var] = {'$contains' : 'data'};  // checks to see if key name is in collection
     return Promise.resolve(responses.find(q_obj));
+}
+
+function show_loki_responses(){
+    return JSON.stringify(responses.data)
 }

@@ -3,18 +3,20 @@
     position: absolute;
     bottom: 0;
     left:0;
+    margin-left:5px
 }
 
 .custom-form{
     position: relative;
     margin-bottom: 5px;
     margin-left: 12px;
+
 }
 
 .custom-input{
     position: relative;
     margin-right: 3px;
-    width:300px;
+    width:350px;
     font-size: 16px;
 }
 
@@ -24,6 +26,12 @@
 
 .custom-label{
     margin-right: 3px;
+}
+
+#overwrite{
+    margin-left: 15px;
+    width:18px;
+    height:18px;
 }
 
 #messages { list-style-type: none; margin: 0; padding: 0; }
