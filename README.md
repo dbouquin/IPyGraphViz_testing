@@ -20,6 +20,7 @@ Expanded chat app based on simple_json_chat. Loki.js is used as an in-browser da
 1. Initialize notebook server in parent directory, run `test.ipynb` on a new kernel and evaluate the cell with `echo_methods()`
 2. `cd loki_chat2` and run `npm install` to build node dependencies
 3. Install bower, `cd loki_chat2/public` and `bower install` to install client dependencies
+4. `cd ..` and `node index` 
 4. navigate browser to localhost:3000 and send a message. A JSON response from Jupyter should be echoed back to the browser and appended to a list.
 5. If _overwrite_ responses that are already keyed in the database will be overwritten with a new call to jupyter.
 6. _Show Loki DataStore_ appends the current datastore to the list.
