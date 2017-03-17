@@ -10,7 +10,7 @@ const io = require('socket.io')(server);
 
 const BASE_URL = 'http://localhost:8888';
 const HTTP_PORT = 3000;
-const TOKEN = 'd1a78b27d7de7d710c1f8a68c91b7253b12ed25dc19f5a47'  // this needs to be passed from the terminal output!
+const TOKEN = 'f4408de90db98c85e1e3896c68b46161090d878a906e1a64'  // this needs to be passed from the terminal output!
 
 //Override the global request and socket functions this is for @jupyter services.
 global.XMLHttpRequest = xhr.XMLHttpRequest;
@@ -27,12 +27,17 @@ app.get('/', function (req, res) {
   res.sendFile(__dirname + '/index.html');
 });
 
+//services.IAjaxSettings.withCredentials = true;
+console.log(services)
+
+
 io.on('connection',(socket) => {
     console.log('connection established')
 
     //listen for requests to notebook server and send response back to browser
     //connectKernel(socket)
-    services.Kernel.listRunning({baseURL:BASE_URL, token:TOKEN}).then((kernelModels)=>{  //token passed in
+
+    services.Kernel.listRunning({baseURL:BASE_URL, token:TOKEN }).then((kernelModels)=>{  //token passed in
 
         let options =  { baseURL: BASE_URL, token:TOKEN, name:kernelModels[0].name }
 
@@ -78,5 +83,7 @@ io.on('connection',(socket) => {
         });
         //need to close connection to kernel via services.Kernel somehow
 
+    }).catch((err)=>{
+        console.log(err);
     });
 });
