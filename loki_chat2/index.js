@@ -8,9 +8,9 @@ const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
 
-const BASE_URL = 'http://localhost:8888';
+//const BASE_URL = 'http://localhost:8888';
 const HTTP_PORT = 3000;
-const TOKEN = 'd1a78b27d7de7d710c1f8a68c91b7253b12ed25dc19f5a47'  // this needs to be passed from the terminal output!
+//const TOKEN = 'ce0ecee511fc52975433cfdfd39484bfa9f45a005c915922'  // this needs to be passed from the terminal output!
 
 //Override the global request and socket functions this is for @jupyter services.
 global.XMLHttpRequest = xhr.XMLHttpRequest;
@@ -32,9 +32,9 @@ io.on('connection',(socket) => {
 
     //listen for requests to notebook server and send response back to browser
     //connectKernel(socket)
-    services.Kernel.listRunning({baseURL:BASE_URL, token:TOKEN}).then((kernelModels)=>{  //token passed in
+    services.Kernel.listRunning().then((kernelModels)=>{  //token passed in
 
-        let options =  { baseURL: BASE_URL, token:TOKEN, name:kernelModels[0].name }
+        let options =  {name:kernelModels[0].name }
 
         services.Kernel.connectTo(kernelModels[0].id,options).then((kernel)=>{
             console.log('user connected: '+socket.id)
@@ -78,5 +78,7 @@ io.on('connection',(socket) => {
         });
         //need to close connection to kernel via services.Kernel somehow
 
+    }).catch((err)=>{
+        console.log(err);
     });
 });
