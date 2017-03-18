@@ -33,7 +33,7 @@ class IPySig(object):
     _store = {}  # store all instances keyed by name
     url = None          # url and token of currently running notebook server
     token = None
-    express_process = None   # the express process 
+    express_process = None   # the express process
 
     def __init__(self, graph, name):
         self.name = name
@@ -91,7 +91,7 @@ class IPySig(object):
     def _run_node(self):
         # Run the node script with command arguments for baseUrl and token
         #
-        node_command = ['node', './app/index.js', '--baseUrl', IPySig.base_url]
+        node_command = ['node', '../app/index.js', '--baseUrl', IPySig.base_url]
         if token:
             node_command.append('--token={}'.format(IPySig.token)) # attach if running notebook has token (4.2.3+)
 
