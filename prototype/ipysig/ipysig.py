@@ -6,6 +6,7 @@ from __future__ import division
 import os
 import sys
 import re
+import urllib2
 import shutil as shl
 
 import subprocess as sbp
