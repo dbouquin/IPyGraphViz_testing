@@ -6,11 +6,13 @@ from __future__ import division
 import os
 import sys
 import re
-import urllib2
+import webbrowser as web
+import atexit
 import shutil as shl
 
 import subprocess as sbp
-import threading
+import time
+#import threading
 
 import collections as coll  # not sure if this one is needed
 
@@ -29,16 +31,17 @@ class IpySigException(Exception):
 
 class IPySig(object):
     '''
-    Main graph object
+    Main graph controller object -- keeper of the express server process
     '''
-    _store = {}  # store all instances keyed by name
+    _store = {}  # store all instances keyed by name -- possibly used ordered dict so that node
     url = None          # url and token of currently running notebook server
     token = None
-    express_process = None   # the express process
+    exp_process = None   # the express process
 
-    def __init__(self, graph, name):
+    def __init__(self, graph, name, node_path):
         self.name = name
         self.graph = None
+        self.node_path = node_path
 
         self._load_graph(graph)  # all of these need to pass error checking before continuing
         self._load_ref()
@@ -87,18 +90,26 @@ class IPySig(object):
 
     def _init_express(self):
         # checks to see if subprocess is already running and then calls the express app on a thread using _run_node()
-        pass
+        if IPySig.exp_process is None:
+            IPySig.exp_process = self._run_node()
+            time.sleep(.25)
+            print(IPySig.exp_process.pid)
+        web.open_new_tab('http://localhost:3000')
 
     def _run_node(self):
         # Run the node script with command arguments for baseUrl and token
-        #
-        node_command = ['node', '../app/index.js', '--baseUrl', IPySig.base_url]
-        if token:
+        node_command = ['node', self.node_path +'index.js', '--baseUrl', IPySig.url]
+        if IPySig.token:
             node_command.append('--token={}'.format(IPySig.token)) # attach if running notebook has token (4.2.3+)
 
         print(' '.join(node_command))
-        return subprocess.check_call(node_command)
+        return sbp.Popen(node_command,stdout=sbp.PIPE, stdin=sbp.PIPE)
 
+
+    def kill_express(self):
+        # registered to auto-kill express process
+        if IPySig.exp_process is not None or IPySig.exp_process.poll() is None:
+            IPySig.exp_process.kill()
 
 
 if __name__ == '__main__':
@@ -106,3 +117,4 @@ if __name__ == '__main__':
     g = nx.Graph()
 
     x = IPySig(g, 'fred')
+    x.kill_express()
