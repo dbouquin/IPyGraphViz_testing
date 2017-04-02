@@ -12,7 +12,9 @@ import shutil as shl
 
 import subprocess as sbp
 import time
-#import threading
+
+from socketIO_client import SocketIO, BaseNamespace
+
 
 import collections as coll  # not sure if this one is needed
 
@@ -28,6 +30,15 @@ class IpySigException(Exception):
     pass
 
 ###
+
+
+class PyNamespace(BaseNamespace):
+
+    # callback established here
+    def on_pyconnect_response(self, *args):
+        print(args[0])   
+
+## TODO Catch attribute errors if no Notebook server is running
 
 class IPySig(object):
     '''
@@ -87,14 +98,29 @@ class IPySig(object):
         if token:
             IPySig.token = token.group()
 
-
     def _init_express(self):
         # checks to see if subprocess is already running and then calls the express app on a thread using _run_node()
+        
+
         if IPySig.exp_process is None:
             IPySig.exp_process = self._run_node()
-            time.sleep(.25)
-            print(IPySig.exp_process.pid)
-        web.open_new_tab('http://localhost:3000')
+            print('loading express... ')
+            time.sleep(1)
+            print('IPySig express PID: '+ str(IPySig.exp_process.pid))
+
+        web.open_new_tab('http://localhost:3000') # browser connection -- error checking here
+        time.sleep(1)   # blocks for one second for browser to open and send browser_sock_id to node server
+        
+        self._emit_instance_name()   # send instance name and bind with browser socket id
+
+    def _emit_instance_name(self):
+        
+        socket = SocketIO('localhost', 3000)
+        py_namespace = socket.define(PyNamespace, '/py')
+        py_namespace.emit('py-object-name', self.name)
+        
+        socket.wait(seconds=1) # blocks for one second to wait for callbacks
+
 
     def _run_node(self):
         # Run the node script with command arguments for baseUrl and token
@@ -103,18 +129,28 @@ class IPySig(object):
             node_command.append('--token={}'.format(IPySig.token)) # attach if running notebook has token (4.2.3+)
 
         print(' '.join(node_command))
-        return sbp.Popen(node_command,stdout=sbp.PIPE, stdin=sbp.PIPE)
+        return sbp.Popen(node_command, stdout=sbp.PIPE, bufsize=1, universal_newlines=True)
 
 
-    def kill_express(self):
+    def kill_express_process(self):
         # registered to auto-kill express process
-        if IPySig.exp_process is not None or IPySig.exp_process.poll() is None:
-            IPySig.exp_process.kill()
+        #if IPySig.exp_process is not None or IPySig.exp_process.poll() is None:
+        IPySig.exp_process.kill()
+        print(str(IPySig.exp_process.pid) + ' has been killed')
+
+        IPySig.exp_process = None
 
 
 if __name__ == '__main__':
-    pass
-    g = nx.Graph()
+    # @atexit.register    # autokills process on ctrl-c for testing purposes
+    # def auto_kill():
+    #     if IPySig.exp_process.poll() is None:
+    #         IPySig.exp_process.kill()
+    #     print(str(IPySig.exp_process.pid) + ' has been auto-killed')
 
-    x = IPySig(g, 'fred')
-    x.kill_express()
+    g = nx.Graph()
+    x = IPySig(g, 'fred', '../app/')
+
+    time.sleep(12)
+    x.kill_express_process()
+
